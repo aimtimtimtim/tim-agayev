@@ -3,7 +3,7 @@ export const en = {
     hero: {
         hello: "Hey, I'm",
         name: "Tim",
-        description: "Product designer creating user experience and design that is a pleasure to use. Based in Turkmenistan.",
+        description: "Product designer who creates user experience and design that is a pleasure to use. Based in Turkmenistan.",
         resume: "Resume",
     }
 }
