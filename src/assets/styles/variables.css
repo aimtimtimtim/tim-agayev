@@ -1,0 +1,33 @@
+:root {
+  /* Colors - Light Theme (по умолчанию) */
+  --bg-primary: #ffffff;
+  --bg-primary-hover: #262626;
+
+  --bg-secondary: #f5f5f5;
+  --bg-secondary-hover: #f1f1f1;
+
+  --bg-tertiary: #ffffff;
+
+  --accent: #121212;
+  --on-accent: #ffffff;
+
+  --text-primary: #121212;
+  --text-secondary: #666666;
+}
+
+/* Dark Theme */
+[data-theme="dark"] {
+  --bg-primary: #121212;
+  --bg-primary-hover: #F2F2F2;
+
+  --bg-secondary: #202020;
+  --bg-secondary-hover: #232323;
+
+  --bg-tertiary: #313131;
+
+  --accent: #ffffff;
+  --on-accent: #121212;
+
+  --text-primary: #ffffff;
+  --text-secondary: #a0a0a0;
+}

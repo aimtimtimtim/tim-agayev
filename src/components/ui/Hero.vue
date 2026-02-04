@@ -1,17 +1,24 @@
+<script setup lang="ts">
+import PrimaryBtn from '../atoms/PrimaryBtn.vue';
+import SecondaryBtn from '../atoms/SecondaryBtn.vue';
+
+import { content } from '../../content/i18n'
+
+</script>
+
 <template>
     <div class="container">
         <div class="top">
             <div class="name">
-                <h1>Привет</h1>
+                <h1>{{ content.hero.hello }}</h1>
                 <img src="/public/pic.png" alt="">
-                <h1>я Тим</h1>
+                <h1>{{ content.hero.name }}</h1>
             </div>
-            <p>Продуктовый дизайнер, создающий пользовательский опыт и дизайн, которым приятно пользоваться. Живу в
-                Туркменистане.</p>
+            <p>{{ content.hero.description }}</p>
         </div>
         <div class="buttons">
-            <button>Резюме</button>
-            <button>Telegram</button>
+            <PrimaryBtn :text="content.hero.resume"></PrimaryBtn>
+            <SecondaryBtn text="Telegram"></SecondaryBtn>
         </div>
     </div>
 </template>
@@ -19,12 +26,13 @@
 <style>
 h1 {
     font-size: 56px;
-    font-weight: 600;
+    font-weight: 500;
 }
 
 p {
     font-size: 20px;
     line-height: 1.5;
+    font-weight: 400;
 }
 
 .container {
@@ -50,4 +58,10 @@ img {
     flex-direction: column;
     gap: 1rem;
 }
+
+.buttons {
+  display: flex;
+  gap: 0.5rem;
+}
+
 </style>

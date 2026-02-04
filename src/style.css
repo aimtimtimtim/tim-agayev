@@ -2,15 +2,24 @@
 @import url('https://fonts.googleapis.com/css2?family=Geist:wght@100..900&display=swap');
 
 
+/* Добавь это правило */
+button, input, select, textarea {
+  font-family: inherit;
+}
+
 *{
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
+html {
+  font-family: "Geist", system-ui, -apple-system, sans-serif;
+}
+
 body {
-  font-family: "Geist", system-ui, sans-serif;
-  color: var(--color-text);
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
   display: flex;
   flex-direction: column;
   min-height: 100vh;

@@ -1,23 +1,54 @@
 <script setup lang="ts">
+import { ref, onMounted } from 'vue'
 import LangToggle from './LangToggle.vue';
+import NavLink from '../atoms/NavLink.vue';
 
+import { content } from '../../content/i18n';
 
+const isDark = ref(false)
+
+const toggleTheme = () => {
+    isDark.value = !isDark.value
+    const theme = isDark.value ? 'dark' : 'light'
+
+    // Применяем тему к тегу html
+    document.documentElement.setAttribute('data-theme', theme)
+    // Сохраняем, чтобы после перезагрузки не слетало
+    localStorage.setItem('theme', theme)
+}
+
+// При загрузке проверяем, что было выбрано ранее
+onMounted(() => {
+    const savedTheme = localStorage.getItem('theme')
+    if (savedTheme === 'dark') {
+        isDark.value = true
+        document.documentElement.setAttribute('data-theme', 'dark')
+    }
+})
+
+// Данные для ссылок лучше вынести в массив, чтобы шаблон был чище
+const socialLinks = [
+    { id: 1, text: 'Telegram', href: 'https://t.me/aimtimtimtim' },
+    { id: 2, text: 'LinkedIn', href: 'https://linkedin.com/in/tim-agayev/ru/' },
+    { id: 3, text: 'Dribbble', href: 'https://dribbble.com/aimtimtimtim' },
+    { id: 4, text: 'Mail', href: 'mailto:agayevtim@gmail.com' }
+]
 </script>
 
 <template>
     <header class="header">
         <div class="header__inner">
-            <p class="logo">Tim Agayev</p>
+            <p class="logo">{{ content.logo }}</p>
 
             <div class="actions">
-                <button class="theme-toggle"><img src="/public/icons/sun.svg" alt=""></button>
+                <button class="theme-toggle" @click="toggleTheme">
+                    <img :src="isDark ? '/icons/moon.svg' : '/icons/sun.svg'" alt="theme icon">
+                </button>
                 <LangToggle />
             </div>
 
             <nav class="navigation">
-                <a href="nav-link">Telegram</a>
-                <a href="nav-link">LinkedIn</a>
-                <a href="nav-link">Dribbble</a>
+                <NavLink v-for="link in socialLinks" :key="link.id" :href="link.href" :text="link.text" />
             </nav>
         </div>
     </header>
@@ -50,7 +81,7 @@ import LangToggle from './LangToggle.vue';
 .theme-toggle {
     height: 32px;
     width: 32px;
-    background-color: #F5F5F5;
+    background-color: var(--bg-secondary);
     border-radius: 999px;
     border: none;
     cursor: pointer;
@@ -61,13 +92,35 @@ import LangToggle from './LangToggle.vue';
     img {
         width: 20px;
         height: 20px;
+        transition: filter 0.3s ease;
     }
+}
+
+[data-theme="dark"] .theme-toggle img {
+    filter: invert(1);
 }
 
 .navigation {
     display: flex;
     gap: 1rem;
     min-width: 200px;
+}
+
+/* Когда мы наводим на список, МЕНЯЕМ ВСЕ ссылки внутри на серый цвет.
+  Это сработает сразу на все NavLink, как только мышь пересечет границу .navigation
+*/
+.navigation:hover .nav-link {
+    color: var(--text-secondary);
+    /* Можно добавить легкую прозрачность для пущего эффекта */
+    opacity: 0.6;
+}
+
+/* Но та ссылка, на которую наведена мышь В ДАННЫЙ МОМЕНТ, 
+  перебивает общее правило и остается белой.
+*/
+.navigation .nav-link:hover {
+    color: var(--text-primary);
+    opacity: 1;
 }
 
 .navigation a {
