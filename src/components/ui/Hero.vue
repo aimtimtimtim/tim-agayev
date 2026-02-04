@@ -11,7 +11,7 @@ import { content } from '../../content/i18n'
         <div class="top">
             <div class="name">
                 <h1>{{ content.hero.hello }}</h1>
-                <img src="/public/pic.png" alt="">
+                <img src="/pic.png" alt="Tim Agayev">
                 <h1>{{ content.hero.name }}</h1>
             </div>
             <p>{{ content.hero.description }}</p>
@@ -40,7 +40,7 @@ p {
     display: flex;
     flex-direction: column;
     gap: 24px;
-    margin-top: 70px;
+    margin-top: 120px;
 }
 
 .name {
