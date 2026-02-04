@@ -136,6 +136,7 @@ onUnmounted(() => {
     p {
         min-width: 200px;
         font-size: 14px;
+        font-weight: 600;
     }
 }
 
