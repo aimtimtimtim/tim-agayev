@@ -1,6 +1,9 @@
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted } from 'vue'
 
+import sun from '../../assets/icons/sun.svg'
+import moon from '../../assets/icons/moon.svg'
+
 const isDark = ref(false)
 
 const toggleTheme = () => {
@@ -26,7 +29,7 @@ onMounted(() => {
 
 <template>
     <button class="theme-toggle" @click="toggleTheme">
-        <img :src="isDark ? '/src/assets/icons/moon.svg' : '/src/assets/icons/sun.svg'" alt="theme icon">
+        <img :src="isDark ? moon : sun" alt="theme icon">
     </button>
 </template>
 
