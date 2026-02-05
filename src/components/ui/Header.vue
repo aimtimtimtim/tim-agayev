@@ -4,6 +4,7 @@ import LangToggle from './LangToggle.vue';
 import NavLink from '../atoms/NavLink.vue';
 
 import { content } from '../../content/i18n';
+import ThemeToggle from '../atoms/ThemeToggle.vue';
 
 const isDark = ref(false)
 
@@ -65,9 +66,7 @@ const socialLinks = [
             </button>
 
             <div class="actions">
-                <button class="theme-toggle" @click="toggleTheme">
-                    <img :src="isDark ? '/src/assets/icons/moon.svg' : '/src/assets/icons/sun.svg'" alt="theme icon">
-                </button>
+                <ThemeToggle></ThemeToggle>
                 <LangToggle />
             </div>
 
@@ -144,33 +143,6 @@ const socialLinks = [
     position: absolute;
     left: 50%;
     transform: translateX(-50%);
-}
-
-.theme-toggle {
-    height: 32px;
-    width: 32px;
-    background-color: var(--bg-secondary);
-    border-radius: 999px;
-    border: none;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: background-color 0.2s ease;
-
-    img {
-        width: 20px;
-        height: 20px;
-        transition: filter 0.3s ease;
-    }
-
-    &:hover {
-        background-color: var(--bg-tertiary);
-    }
-}
-
-[data-theme="dark"] .theme-toggle img {
-    filter: invert(1);
 }
 
 .right {
