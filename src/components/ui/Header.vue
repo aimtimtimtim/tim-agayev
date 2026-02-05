@@ -4,6 +4,7 @@ import LangToggle from './LangToggle.vue';
 import NavLink from '../atoms/NavLink.vue';
 
 import { content } from '../../content/i18n';
+import ThemeToggle from '../atoms/ThemeToggle.vue';
 
 const isDark = ref(false)
 
@@ -57,9 +58,7 @@ onUnmounted(() => {
             </div>
 
             <div class="actions">
-                <button class="theme-toggle" @click="toggleTheme">
-                    <img :src="isDark ? '/src/assets/icons/moon.svg' : '/src/assets/icons/sun.svg'" alt="theme icon">
-                </button>
+                <ThemeToggle></ThemeToggle>
                 <LangToggle />
             </div>
 
@@ -91,26 +90,6 @@ onUnmounted(() => {
     padding: 1rem;
 
     background-color: var(--bg-primary);
-
-    /** **/
-
-    /* 1. Делаем фон градиентом от основного цвета к прозрачному */
-    /* background: linear-gradient(to bottom,
-            var(--bg-primary) 0%,
-            var(--bg-primary) 40%,
-            rgba(0, 0, 0, 0) 100%); */
-
-    /* 2. Блюрим то, что находится ПОД хедером */
-    /* backdrop-filter: blur(8px); */
-    /* -webkit-backdrop-filter: blur(8px); */
-
-    /* 3. Маска, которая плавно "отрезает" сам хедер снизу, 
-       создавая эффект таяния контента */
-    /* mask-image: linear-gradient(to bottom, black 0%, black 50%, transparent 100%); */
-    /* -webkit-mask-image: linear-gradient(to bottom, black 0%, black 50%, transparent 100%); */
-
-    /* Убираем любые резкие границы */
-    /* border: none; */
 }
 
 
@@ -154,27 +133,6 @@ onUnmounted(() => {
     transform: translateX(-50%);
 }
 
-.theme-toggle {
-    height: 32px;
-    width: 32px;
-    background-color: var(--bg-secondary);
-    border-radius: 999px;
-    border: none;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    img {
-        width: 20px;
-        height: 20px;
-        transition: filter 0.3s ease;
-    }
-}
-
-[data-theme="dark"] .theme-toggle img {
-    filter: invert(1);
-}
 
 
 .right {
