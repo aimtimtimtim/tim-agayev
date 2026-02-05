@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { ref, onMounted, onUnmounted } from 'vue'
+import { ref, onMounted } from 'vue'
 
-import sun from '../../assets/icons/sun.svg'
-import moon from '../../assets/icons/moon.svg'
+const sun = new URL('../../assets/icons/sun.svg', import.meta.url).href
+const moon = new URL('../../assets/icons/moon.svg', import.meta.url).href
 
 const isDark = ref(false)
 
