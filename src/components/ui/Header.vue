@@ -4,28 +4,34 @@ import LangToggle from './LangToggle.vue';
 import NavLink from '../atoms/NavLink.vue';
 
 import { content } from '../../content/i18n';
-import ThemeToggle from '../atoms/ThemeToggle.vue';
 
 const isDark = ref(false)
 
 const showResume = ref(false)
 
-const handleScroll = () => {
-    // Если проскроллили больше 200px — показываем кнопку
-    showResume.value = window.scrollY > 310
-}
-
 const toggleTheme = () => {
     isDark.value = !isDark.value
     const theme = isDark.value ? 'dark' : 'light'
 
-    // Применяем тему к тегу html
     document.documentElement.setAttribute('data-theme', theme)
-    // Сохраняем, чтобы после перезагрузки не слетало
     localStorage.setItem('theme', theme)
 }
 
-// При загрузке проверяем, что было выбрано ранее
+const scrollToTop = () => {
+    window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+    })
+}
+
+const handleScroll = () => {
+
+    // Если проскроллили больше 200px — показываем кнопку
+
+    showResume.value = window.scrollY > 310
+
+}
+
 onMounted(() => {
     const savedTheme = localStorage.getItem('theme')
     if (savedTheme === 'dark') {
@@ -35,7 +41,12 @@ onMounted(() => {
     window.addEventListener('scroll', handleScroll)
 })
 
-// Данные для ссылок лучше вынести в массив, чтобы шаблон был чище
+onUnmounted(() => {
+
+    window.removeEventListener('scroll', handleScroll)
+
+})
+
 const socialLinks = [
     { id: 1, text: 'Telegram', href: 'https://t.me/aimtimtimtim' },
     { id: 2, text: 'LinkedIn', href: 'https://linkedin.com/in/tim-agayev/ru/' },
@@ -43,22 +54,20 @@ const socialLinks = [
     { id: 4, text: 'Mail', href: 'mailto:agayevtim@gmail.com' }
 ]
 
-onUnmounted(() => {
-    window.removeEventListener('scroll', handleScroll)
-})
-
 </script>
 
 <template>
     <header class="header">
         <div class="header__inner">
-            <div class="logo">
+            <button class="logo" @click="scrollToTop">
                 <img src="/src/assets/icons/logo.svg" alt="Logo">
                 <p>{{ content.logo }}</p>
-            </div>
+            </button>
 
             <div class="actions">
-                <ThemeToggle></ThemeToggle>
+                <button class="theme-toggle" @click="toggleTheme">
+                    <img :src="isDark ? '/src/assets/icons/moon.svg' : '/src/assets/icons/sun.svg'" alt="theme icon">
+                </button>
                 <LangToggle />
             </div>
 
@@ -66,11 +75,11 @@ onUnmounted(() => {
                 <nav class="navigation">
                     <NavLink v-for="link in socialLinks" :key="link.id" :href="link.href" :text="link.text" />
                 </nav>
-
                 <button v-if="showResume" class="resume-button">
-                    {{ content.hero.resume }}
-                </button>
 
+                    {{ content.hero.resume }}
+
+                </button>
             </div>
         </div>
     </header>
@@ -82,7 +91,6 @@ onUnmounted(() => {
     top: 0;
     left: 0;
     width: 100%;
-    /* Увеличил чуть высоту, чтобы фейд был заметнее */
     z-index: 1000;
 
     display: flex;
@@ -91,7 +99,6 @@ onUnmounted(() => {
 
     background-color: var(--bg-primary);
 }
-
 
 .header__inner {
     display: flex;
@@ -102,24 +109,31 @@ onUnmounted(() => {
 }
 
 .logo {
-
     display: flex;
+    align-items: center;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    transition: opacity 0.2s ease;
 
     img {
         max-width: 14px;
         margin-right: .3rem;
         transition: filter 0.3s ease;
-        /* Плавный переход при смене темы */
     }
 
     p {
-        min-width: 200px;
         font-size: 14px;
         font-weight: 600;
+        color: var(--text-primary);
+    }
+
+    &:hover {
+        opacity: 0.7;
     }
 }
 
-/* Если в темной теме логотип должен стать белым */
 [data-theme="dark"] .logo img {
     filter: invert(1);
 }
@@ -128,12 +142,36 @@ onUnmounted(() => {
     display: flex;
     gap: 0.5rem;
     position: absolute;
-    position: absolute;
     left: 50%;
     transform: translateX(-50%);
 }
 
+.theme-toggle {
+    height: 32px;
+    width: 32px;
+    background-color: var(--bg-secondary);
+    border-radius: 999px;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s ease;
 
+    img {
+        width: 20px;
+        height: 20px;
+        transition: filter 0.3s ease;
+    }
+
+    &:hover {
+        background-color: var(--bg-tertiary);
+    }
+}
+
+[data-theme="dark"] .theme-toggle img {
+    filter: invert(1);
+}
 
 .right {
     display: flex;
@@ -148,18 +186,11 @@ onUnmounted(() => {
     min-width: 200px;
 }
 
-/* Когда мы наводим на список, МЕНЯЕМ ВСЕ ссылки внутри на серый цвет.
-  Это сработает сразу на все NavLink, как только мышь пересечет границу .navigation
-*/
 .navigation:hover .nav-link {
     color: var(--text-secondary);
-    /* Можно добавить легкую прозрачность для пущего эффекта */
     opacity: 0.6;
 }
 
-/* Но та ссылка, на которую наведена мышь В ДАННЫЙ МОМЕНТ, 
-  перебивает общее правило и остается белой.
-*/
 .navigation .nav-link:hover {
     color: var(--text-primary);
     opacity: 1;
@@ -172,28 +203,52 @@ onUnmounted(() => {
 }
 
 .resume-button {
+
     display: inline-flex;
+
     align-items: center;
+
     justify-content: center;
+
     background-color: var(--accent);
+
     color: var(--on-accent);
+
     border: none;
+
     height: 32px;
+
     padding: 0 16px;
+
     border-radius: 999px;
+
     font-size: 14px;
+
     font-weight: 400;
+
     cursor: pointer;
+
     transition: background-color 0.2s ease;
+
     white-space: nowrap;
+
     /* Чтобы текст не обрывался */
+
 }
+
+
 
 .resume-button:hover {
+
     background-color: var(--bg-primary-hover);
+
 }
 
+
+
 .resume-button:active {
+
     transform: scale(0.98);
+
 }
 </style>
