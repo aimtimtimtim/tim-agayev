@@ -1,9 +1,12 @@
 <script setup lang="ts">
-import { useLanguageStore } from '../../../stores/language'
+import { useI18n } from '../../../composables/useI18n'
 import { useLinksStore } from '../../../stores/links'
 
-const langStore = useLanguageStore()
 const linksStore = useLinksStore()
+
+const i18n = useI18n({
+  logo: { ru: 'Тим Aгаев', en: 'Tim Agayev' }
+})
 </script>
 
 <template>
@@ -17,7 +20,7 @@ const linksStore = useLinksStore()
         <div class="footer__inner">
             <div class="logo">
                 <img src="/src/assets/icons/logo.svg" alt="Logo">
-                <p>{{ langStore.content.logo }}</p>
+                <p>{{ i18n.logo }}</p>
             </div>
             <p class="copyright">© 2026</p>
         </div>

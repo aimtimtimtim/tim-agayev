@@ -4,12 +4,18 @@ import LangToggle from '../LangToggle.vue';
 import NavLink from '../../atoms/NavLink.vue';
 import PrimaryBtn from '../../atoms/PrimaryBtn.vue';
 
-import { useLanguageStore } from '../../../stores/language'
+import { useI18n } from '../../../composables/useI18n'
 import { useLinksStore } from '../../../stores/links'
+import { useLanguageStore } from '../../../stores/language'
 import ThemeToggle from '../../atoms/ThemeToggle.vue';
 
-const langStore = useLanguageStore()
 const linksStore = useLinksStore()
+const langStore = useLanguageStore()
+
+const i18n = useI18n({
+  logo: { ru: 'Тим Aгаев', en: 'Tim Agayev' },
+  resumeButton: { ru: 'Резюме', en: 'Resume' }
+})
 
 const showResume = ref(false)
 
@@ -60,7 +66,7 @@ const socialLinks = computed(() => [
         <div class="header__inner">
             <button class="logo" @click="scrollToTop">
                 <img src="/src/assets/icons/logo.svg" alt="Logo">
-                <p>{{ langStore.content.logo }}</p>
+                <p>{{ i18n.logo }}</p>
             </button>
 
             <div class="actions">
@@ -73,7 +79,7 @@ const socialLinks = computed(() => [
                     <NavLink v-for="link in socialLinks" :key="link.id" :href="link.href" :text="link.text" />
                 </nav>
                 <a v-if="showResume" :href="getResumeLink()" target="_blank" rel="noopener noreferrer" class="resume-link">
-                    <PrimaryBtn :text="langStore.content.hero.resume"></PrimaryBtn>
+                    <PrimaryBtn :text="i18n.resumeButton"></PrimaryBtn>
                 </a>
             </div>
         </div>

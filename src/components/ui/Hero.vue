@@ -2,11 +2,19 @@
 import PrimaryBtn from '../atoms/PrimaryBtn.vue';
 import SecondaryBtn from '../atoms/SecondaryBtn.vue';
 
+import { useI18n } from '../../composables/useI18n'
 import { useLanguageStore } from '../../stores/language'
 import { useLinksStore } from '../../stores/links'
 
 const langStore = useLanguageStore()
 const linksStore = useLinksStore()
+
+const i18n = useI18n({
+  hello: { ru: 'Привет', en: "Hey, I'm" },
+  name: { ru: 'Я Тим', en: 'Tim' },
+  description: { ru: 'Продуктовый дизайнер, создающий пользовательский опыт и дизайн, которым приятно пользоваться. Живу в Туркменистане.', en: 'Product designer who creates user experience and design that is a pleasure to use. Based in Turkmenistan.' },
+  resume: { ru: 'Резюме', en: 'Resume' }
+})
 
 const getResumeLink = () => {
   return langStore.lang === 'ru' ? linksStore.links.ruResume : linksStore.links.enResume
@@ -17,15 +25,15 @@ const getResumeLink = () => {
     <div class="container">
         <div class="top">
             <div class="name">
-                <h1>{{ langStore.content.hero.hello }}</h1>
+                <h1>{{ i18n.hello }}</h1>
                 <img src="/pic.png" alt="Tim Agayev">
-                <h1>{{ langStore.content.hero.name }}</h1>
+                <h1>{{ i18n.name }}</h1>
             </div>
-            <p>{{ langStore.content.hero.description }}</p>
+            <p>{{ i18n.description }}</p>
         </div>
         <div class="buttons">
             <a :href="getResumeLink()" target="_blank" rel="noopener noreferrer">
-                <PrimaryBtn :text="langStore.content.hero.resume"></PrimaryBtn>
+                <PrimaryBtn :text="i18n.resume"></PrimaryBtn>
             </a>
             <a :href="linksStore.links.telegram" target="_blank" rel="noopener noreferrer">
                 <SecondaryBtn text="Telegram"></SecondaryBtn>
