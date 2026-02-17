@@ -1,18 +1,20 @@
 <script setup lang="ts">
 import { computed } from 'vue'
-import { lang, setLang } from '../../content/i18n'
+import { useLanguageStore } from '../../stores/language'
 
-const sliderLeft = computed(() => (lang.value === 'ru' ? '2px' : 'calc(50% - 2px)'))
+const langStore = useLanguageStore()
+
+const sliderLeft = computed(() => (langStore.lang === 'ru' ? '2px' : 'calc(50% - 2px)'))
 </script>
 
 <template>
     <div class="lang-toggle">
         <div class="slider" :style="{ left: sliderLeft }"></div>
 
-        <button class="lang-btn" :class="{ active: lang === 'ru' }" @click="setLang('ru')">
+        <button class="lang-btn" :class="{ active: langStore.lang === 'ru' }" @click="langStore.setLang('ru')">
             RU
         </button>
-        <button class="lang-btn" :class="{ active: lang === 'en' }" @click="setLang('en')">
+        <button class="lang-btn" :class="{ active: langStore.lang === 'en' }" @click="langStore.setLang('en')">
             EN
         </button>
     </div>

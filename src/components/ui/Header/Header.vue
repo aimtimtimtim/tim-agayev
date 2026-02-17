@@ -1,22 +1,17 @@
 <script setup lang="ts">
-import { ref, onMounted, onUnmounted } from 'vue'
-import LangToggle from './LangToggle.vue';
-import NavLink from '../atoms/NavLink.vue';
+import { ref, onMounted, onUnmounted, computed } from 'vue'
+import LangToggle from '../LangToggle.vue';
+import NavLink from '../../atoms/NavLink.vue';
+import PrimaryBtn from '../../atoms/PrimaryBtn.vue';
 
-import { content } from '../../content/i18n';
-import ThemeToggle from '../atoms/ThemeToggle.vue';
+import { useLanguageStore } from '../../../stores/language'
+import { useLinksStore } from '../../../stores/links'
+import ThemeToggle from '../../atoms/ThemeToggle.vue';
 
-const isDark = ref(false)
+const langStore = useLanguageStore()
+const linksStore = useLinksStore()
 
 const showResume = ref(false)
-
-const toggleTheme = () => {
-    isDark.value = !isDark.value
-    const theme = isDark.value ? 'dark' : 'light'
-
-    document.documentElement.setAttribute('data-theme', theme)
-    localStorage.setItem('theme', theme)
-}
 
 const scrollToTop = () => {
     window.scrollTo({
@@ -34,11 +29,6 @@ const handleScroll = () => {
 }
 
 onMounted(() => {
-    const savedTheme = localStorage.getItem('theme')
-    if (savedTheme === 'dark') {
-        isDark.value = true
-        document.documentElement.setAttribute('data-theme', 'dark')
-    }
     window.addEventListener('scroll', handleScroll)
 })
 
@@ -48,12 +38,20 @@ onUnmounted(() => {
 
 })
 
-const socialLinks = [
-    { id: 1, text: 'Telegram', href: 'https://t.me/aimtimtimtim' },
-    { id: 2, text: 'LinkedIn', href: 'https://linkedin.com/in/tim-agayev/ru/' },
-    { id: 3, text: 'Dribbble', href: 'https://dribbble.com/aimtimtimtim' },
-    { id: 4, text: 'Mail', href: 'mailto:agayevtim@gmail.com' }
-]
+const getLinkedInUrl = () => {
+    return langStore.lang === 'ru' ? linksStore.links.ruLinkedin : linksStore.links.enLinkedin
+}
+
+const getResumeLink = () => {
+    return langStore.lang === 'ru' ? linksStore.links.ruResume : linksStore.links.enResume
+}
+
+const socialLinks = computed(() => [
+    { id: 1, text: 'Telegram', href: linksStore.links.telegram },
+    { id: 2, text: 'LinkedIn', href: getLinkedInUrl() },
+    { id: 3, text: 'Dribbble', href: linksStore.links.dribbble },
+    { id: 4, text: 'Mail', href: linksStore.links.mail }
+])
 
 </script>
 
@@ -62,7 +60,7 @@ const socialLinks = [
         <div class="header__inner">
             <button class="logo" @click="scrollToTop">
                 <img src="/src/assets/icons/logo.svg" alt="Logo">
-                <p>{{ content.logo }}</p>
+                <p>{{ langStore.content.logo }}</p>
             </button>
 
             <div class="actions">
@@ -74,11 +72,9 @@ const socialLinks = [
                 <nav class="navigation">
                     <NavLink v-for="link in socialLinks" :key="link.id" :href="link.href" :text="link.text" />
                 </nav>
-                <button v-if="showResume" class="resume-button">
-
-                    {{ content.hero.resume }}
-
-                </button>
+                <a v-if="showResume" :href="getResumeLink()" target="_blank" rel="noopener noreferrer" class="resume-link">
+                    <PrimaryBtn :text="langStore.content.hero.resume"></PrimaryBtn>
+                </a>
             </div>
         </div>
     </header>
@@ -94,7 +90,7 @@ const socialLinks = [
 
     display: flex;
     align-items: start;
-    padding: 1rem;
+    padding: 1.5rem 1rem;
 
     background-color: var(--bg-primary);
 }
@@ -172,6 +168,11 @@ const socialLinks = [
     text-decoration: none;
     color: inherit;
     font-size: 14px;
+}
+
+.resume-link {
+    text-decoration: none;
+    color: inherit;
 }
 
 .resume-button {

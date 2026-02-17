@@ -2,23 +2,34 @@
 import PrimaryBtn from '../atoms/PrimaryBtn.vue';
 import SecondaryBtn from '../atoms/SecondaryBtn.vue';
 
-import { content } from '../../content/i18n'
+import { useLanguageStore } from '../../stores/language'
+import { useLinksStore } from '../../stores/links'
 
+const langStore = useLanguageStore()
+const linksStore = useLinksStore()
+
+const getResumeLink = () => {
+  return langStore.lang === 'ru' ? linksStore.links.ruResume : linksStore.links.enResume
+}
 </script>
 
 <template>
     <div class="container">
         <div class="top">
             <div class="name">
-                <h1>{{ content.hero.hello }}</h1>
+                <h1>{{ langStore.content.hero.hello }}</h1>
                 <img src="/pic.png" alt="Tim Agayev">
-                <h1>{{ content.hero.name }}</h1>
+                <h1>{{ langStore.content.hero.name }}</h1>
             </div>
-            <p>{{ content.hero.description }}</p>
+            <p>{{ langStore.content.hero.description }}</p>
         </div>
         <div class="buttons">
-            <PrimaryBtn :text="content.hero.resume"></PrimaryBtn>
-            <SecondaryBtn text="Telegram"></SecondaryBtn>
+            <a :href="getResumeLink()" target="_blank" rel="noopener noreferrer">
+                <PrimaryBtn :text="langStore.content.hero.resume"></PrimaryBtn>
+            </a>
+            <a :href="linksStore.links.telegram" target="_blank" rel="noopener noreferrer">
+                <SecondaryBtn text="Telegram"></SecondaryBtn>
+            </a>
         </div>
     </div>
 </template>
@@ -62,6 +73,12 @@ img {
 .buttons {
   display: flex;
   gap: 0.5rem;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+  display: flex;
 }
 
 </style>

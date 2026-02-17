@@ -1,35 +1,16 @@
 <script setup lang="ts">
-import { ref, onMounted, onUnmounted } from 'vue'
+import { useThemeStore } from '../../stores/theme'
 
-import sun from '../../assets/icons/sun.svg'
-import moon from '../../assets/icons/moon.svg'
+import sun from '@/assets/icons/sun.svg'
+import moon from '@/assets/icons/moon.svg'
 
-const isDark = ref(false)
-
-const toggleTheme = () => {
-    isDark.value = !isDark.value
-    const theme = isDark.value ? 'dark' : 'light'
-
-    // Применяем тему к тегу html
-    document.documentElement.setAttribute('data-theme', theme)
-    // Сохраняем, чтобы после перезагрузки не слетало
-    localStorage.setItem('theme', theme)
-}
-
-// При загрузке проверяем, что было выбрано ранее
-onMounted(() => {
-    const savedTheme = localStorage.getItem('theme')
-    if (savedTheme === 'dark') {
-        isDark.value = true
-        document.documentElement.setAttribute('data-theme', 'dark')
-    }
-})
-
+const themeStore = useThemeStore()
 </script>
 
 <template>
-    <button class="theme-toggle" @click="toggleTheme">
-        <img :src="isDark ? moon : sun" alt="theme icon">
+    <button class="theme-toggle" @click="themeStore.toggleTheme()">
+        <img v-if="!themeStore.isDark" :src="sun" alt="sun">
+        <img v-else :src="moon" alt="moon">
     </button>
 </template>
 
