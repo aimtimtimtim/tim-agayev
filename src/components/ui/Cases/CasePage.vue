@@ -1,69 +1,18 @@
 <script setup lang="ts">
 import { useRoute } from 'vue-router'
-import { useCasesStore } from '../../../stores/cases'
 import { computed } from 'vue'
 
 const route = useRoute()
-const casesStore = useCasesStore()
+
 const caseId = route.params.id as string
 
-const caseData = computed(() => {
-  return casesStore.getCaseById(caseId)
-})
+
 </script>
 
 <template>
-  <div v-if="caseData" class="case-page">
+  <div v-if="1" class="case-page">
     <router-link to="/" class="back-link">← Back</router-link>
-    
-    <div class="case-header">
-      <h1>{{ caseData.title }}</h1>
-      <p class="description">{{ caseData.description }}</p>
-    </div>
 
-    <!-- Situation -->
-    <section class="case-section">
-      <div class="section-content">
-        <div class="section-text">
-          <h2>{{ caseData.situation.title }}</h2>
-          <p>{{ caseData.situation.description }}</p>
-        </div>
-        <div class="section-image-placeholder"></div>
-      </div>
-    </section>
-
-    <!-- Task -->
-    <section class="case-section">
-      <div class="section-image-placeholder"></div>
-      <div class="section-content">
-        <div class="section-text">
-          <h2>{{ caseData.task.title }}</h2>
-          <p>{{ caseData.task.description }}</p>
-        </div>
-      </div>
-    </section>
-
-    <!-- Action -->
-    <section class="case-section">
-      <div class="section-content">
-        <div class="section-text">
-          <h2>{{ caseData.action.title }}</h2>
-          <p>{{ caseData.action.description }}</p>
-        </div>
-        <div class="section-image-placeholder"></div>
-      </div>
-    </section>
-
-    <!-- Result -->
-    <section class="case-section">
-      <div class="section-image-placeholder"></div>
-      <div class="section-content">
-        <div class="section-text">
-          <h2>{{ caseData.result.title }}</h2>
-          <p>{{ caseData.result.description }}</p>
-        </div>
-      </div>
-    </section>
   </div>
   <div v-else class="case-not-found">
     <h2>Case not found</h2>

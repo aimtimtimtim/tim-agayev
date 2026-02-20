@@ -11,11 +11,7 @@ withDefaults(defineProps<Props>(), {
 </script>
 
 <template>
-  <component 
-    :is="href ? 'a' : 'button'" 
-    :href="href"
-    class="primary-btn"
-  >
+  <component :is="href ? 'a' : 'button'" :href="href" class="primary-btn">
     {{ text }}
   </component>
 </template>
@@ -25,8 +21,9 @@ withDefaults(defineProps<Props>(), {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  text-decoration: none; /* Для ссылок */
-  
+  text-decoration: none;
+  /* Для ссылок */
+
   background-color: var(--accent);
   color: var(--on-accent);
   border: none;
@@ -36,15 +33,19 @@ withDefaults(defineProps<Props>(), {
   font-size: 14px;
   font-weight: 400;
   cursor: pointer;
-  transition: background-color 0.2s ease;
+  transition:
+    var(--transition-spring),
+    background-color 250ms ease;
 
   /* Обязательно добавляем & для вложенности в нативном CSS */
   &:hover {
+    transform: scale(1.08);
     background-color: var(--bg-primary-hover);
   }
 
   &:active {
-    transform: scale(0.98); /* Дизайнерский штрих: легкое нажатие */
+    transform: scale(0.98);
+    /* Дизайнерский штрих: легкое нажатие */
   }
 }
 </style>

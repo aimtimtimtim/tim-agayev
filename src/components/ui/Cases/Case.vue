@@ -9,10 +9,12 @@ interface CaseItem {
 }
 
 const props = defineProps<{
-  caseItem: CaseItem
+  title: string
+  description?: string
+  image?: string
 }>()
 
-const routeLink = computed(() => `/case/${props.caseItem.id}`)
+const routeLink = computed(() => `/case/${props.title.toLowerCase().replace(/\s+/g, '-')}`)
 </script>
 
 <template>
@@ -20,8 +22,8 @@ const routeLink = computed(() => `/case/${props.caseItem.id}`)
     <div class="case">
       <div class="case-image-placeholder"></div>
       <div class="case-content">
-        <h3>{{ caseItem.title }}</h3>
-        <p>{{ caseItem.description }}</p>
+        <h3>{{ title }}</h3>
+        <p>{{ description }}</p>
       </div>
     </div>
   </router-link>
