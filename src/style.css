@@ -25,3 +25,14 @@ body {
   min-height: 100vh;
   padding: 0 1rem;
 }
+
+button,
+a {
+    outline: none;
+    -webkit-tap-highlight-color: transparent;
+}
+
+button:focus,
+a:focus {
+    outline: none;
+}

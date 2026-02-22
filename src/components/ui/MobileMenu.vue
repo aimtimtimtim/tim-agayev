@@ -33,9 +33,9 @@ defineEmits<{
 </script>
 
 <template>
-    <div class="mobile-menu" :class="{ active: isOpen }">
+    <div class="mobile-menu" :class="{ active: isOpen }" @click="$emit('close')">
         <Transition name="menu">
-            <div v-if="isOpen" class="mobile-menu__content">
+            <div v-if="isOpen" class="mobile-menu__content" @click.stop>
                 <nav class="mobile-nav">
                     <a v-for="link in links.filter(l => l.text !== 'CV')" :key="link.id" :href="link.href"
                         target="_blank" rel="noopener noreferrer" class="mobile-link" @click="$emit('close')">
@@ -61,15 +61,18 @@ defineEmits<{
     width: 100%;
     height: 100%;
     background-color: rgba(0, 0, 0, 0);
+    backdrop-filter: blur(0px);
     display: flex;
     align-items: flex-start;
     z-index: 999;
-    transition: background-color 800ms cubic-bezier(0.34, 1.3, 0.64, 1);
+    transition: background-color 800ms cubic-bezier(0.34, 1.3, 0.64, 1),
+                backdrop-filter 800ms cubic-bezier(0.34, 1.3, 0.64, 1);
     pointer-events: none;
 }
 
 .mobile-menu.active {
     background-color: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(4px);  /* размытие фона */
     pointer-events: auto;
 }
 
