@@ -22,10 +22,10 @@
 
 /* Dark Theme */
 [data-theme="dark"] {
-  --bg-primary: #121212;
+  --bg-primary: #050505;
   --bg-primary-hover: #F2F2F2;
 
-  --bg-secondary: #202020;
+  --bg-secondary: #191919;
   --bg-secondary-hover: #232323;
 
   --bg-tertiary: #313131;
