@@ -1,6 +1,6 @@
 /* @import './variables.css'; */
-@import url('https://fonts.googleapis.com/css2?family=Geist:wght@100..900&display=swap');
-
+/* @import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap'); */
+@import url('https://fonts.googleapis.com/css2?family=Inter+Tight:ital,wght@0,100..900;1,100..900&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
 
 /* Добавь это правило */
 button, input, select, textarea {
@@ -14,7 +14,7 @@ button, input, select, textarea {
 }
 
 html {
-  font-family: "Geist", system-ui, -apple-system, sans-serif;
+  font-family: "Inter Tight", system-ui, -apple-system, sans-serif;
 }
 
 body {

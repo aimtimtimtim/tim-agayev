@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted, computed } from 'vue'
-import LangToggle from '../LangToggle.vue';
+import LangToggle from '../../atoms/LangToggle.vue';
 import NavLink from '../../atoms/NavLink.vue';
 import PrimaryBtn from '../../atoms/PrimaryBtn.vue';
 
@@ -13,8 +13,9 @@ const linksStore = useLinksStore()
 const langStore = useLanguageStore()
 
 const i18n = useI18n({
-  logo: { ru: 'Тим Aгаев', en: 'Tim Agayev' },
-  resumeButton: { ru: 'Резюме', en: 'Resume' }
+    logo: { ru: 'Тим Aгаев', en: 'Tim Agayev' },
+    resumeButton: { ru: 'Резюме', en: 'Resume' },
+    сontactMe: { ru: 'Написать мне', en: 'Contact me' }
 })
 
 const showResume = ref(false)
@@ -53,6 +54,7 @@ const getResumeLink = () => {
 }
 
 const socialLinks = computed(() => [
+    { id: 1, text: 'CV', href: getResumeLink() },
     { id: 1, text: 'Telegram', href: linksStore.links.telegram },
     { id: 2, text: 'LinkedIn', href: getLinkedInUrl() },
     { id: 3, text: 'Dribbble', href: linksStore.links.dribbble },
@@ -74,14 +76,9 @@ const socialLinks = computed(() => [
                 <LangToggle />
             </div>
 
-            <div class="right">
-                <nav class="navigation">
-                    <NavLink v-for="link in socialLinks" :key="link.id" :href="link.href" :text="link.text" />
-                </nav>
-                <a v-if="showResume" :href="getResumeLink()" target="_blank" rel="noopener noreferrer" class="resume-link">
-                    <PrimaryBtn :text="i18n.resumeButton"></PrimaryBtn>
-                </a>
-            </div>
+            <nav class="navigation">
+                <NavLink v-for="link in socialLinks" :key="link.id" :href="link.href" :text="link.text" />
+            </nav>
         </div>
     </header>
 </template>
@@ -160,6 +157,10 @@ const socialLinks = computed(() => [
     min-width: 200px;
 }
 
+.navigation .nav-link {
+    transition: var(--transition-spring), opacity 600ms var(--spring);
+}
+
 .navigation:hover .nav-link {
     color: var(--text-secondary);
     opacity: 0.6;
@@ -168,66 +169,5 @@ const socialLinks = computed(() => [
 .navigation .nav-link:hover {
     color: var(--text-primary);
     opacity: 1;
-}
-
-.navigation a {
-    text-decoration: none;
-    color: inherit;
-    font-size: 14px;
-}
-
-.resume-link {
-    text-decoration: none;
-    color: inherit;
-}
-
-.resume-button {
-
-    display: inline-flex;
-
-    align-items: center;
-
-    justify-content: center;
-
-    background-color: var(--accent);
-
-    color: var(--on-accent);
-
-    border: none;
-
-    height: 32px;
-
-    padding: 0 16px;
-
-    border-radius: 999px;
-
-    font-size: 14px;
-
-    font-weight: 400;
-
-    cursor: pointer;
-
-    transition: background-color 0.2s ease;
-
-    white-space: nowrap;
-
-    /* Чтобы текст не обрывался */
-
-}
-
-
-
-.resume-button:hover {
-
-    background-color: var(--bg-primary-hover);
-
-}
-
-
-
-.resume-button:active {
-
-    transform: scale(0.98);
-
 }
 </style>

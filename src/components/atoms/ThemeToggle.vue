@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { useThemeStore } from '../../stores/theme'
-
 import sun from '@/assets/icons/sun.svg'
 import moon from '@/assets/icons/moon.svg'
 
@@ -9,8 +8,8 @@ const themeStore = useThemeStore()
 
 <template>
     <button class="theme-toggle" @click="themeStore.toggleTheme()">
-        <img v-if="!themeStore.isDark" :src="sun" alt="sun">
-        <img v-else :src="moon" alt="moon">
+        <img :src="sun" alt="sun" :class="{ active: !themeStore.isDark }">
+        <img :src="moon" alt="moon" :class="{ active: themeStore.isDark }">
     </button>
 </template>
 
@@ -25,12 +24,37 @@ const themeStore = useThemeStore()
     display: flex;
     align-items: center;
     justify-content: center;
+    position: relative;
+    overflow: hidden;
+}
 
-    img {
-        width: 20px;
-        height: 20px;
-        transition: filter 0.3s ease;
-    }
+.theme-toggle img {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    transition: transform 1200ms var(--spring), opacity 600ms var(--spring);
+}
+
+/* Солнце (изначально visible, потом уходит вправо) */
+.theme-toggle img:first-child {
+    transform: translateX(0);
+    opacity: 1;
+}
+
+.theme-toggle img:first-child:not(.active) {
+    transform: translateX(10px);
+    opacity: 0;
+}
+
+/* Луна (изначально hidden слева, потом появляется) */
+.theme-toggle img:last-child {
+    transform: translateX(-10px);
+    opacity: 0;
+}
+
+.theme-toggle img:last-child.active {
+    transform: translateX(0);
+    opacity: 1;
 }
 
 [data-theme="dark"] .theme-toggle img {

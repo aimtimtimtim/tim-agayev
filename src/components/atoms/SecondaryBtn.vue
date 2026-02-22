@@ -3,15 +3,17 @@ interface Props {
   text?: string;
   // Добавим проп для ссылки, как ты хотел ранее
   href?: string;
+  newTab?: boolean; // Новый проп для определения, открывать ли ссылку в новой вкладке
 }
 
 withDefaults(defineProps<Props>(), {
-  text: "Primary Button"
+  text: "Primary Button",
+  newTab: false, // По умолчанию не открывать в новой вкладке
 });
 </script>
 
 <template>
-  <component :is="href ? 'a' : 'button'" :href="href" class="secondary-btn">
+  <component :is="href ? 'a' : 'button'" :href="href" :target="newTab ? '_blank' : '_self'" class="secondary-btn">
     {{ text }}
   </component>
 </template>
@@ -27,10 +29,10 @@ withDefaults(defineProps<Props>(), {
   background-color: var(--bg-secondary);
   color: var(--text-primary);
   border: none;
-  height: 50px;
+  height: 60px;
   padding: 0 32px;
   border-radius: 999px;
-  font-size: 14px;
+  font-size: 16px;
   font-weight: 400;
   cursor: pointer;
   transition:
