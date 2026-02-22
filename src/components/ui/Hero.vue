@@ -49,6 +49,7 @@ const getResumeLink = () => {
 h1 {
     font-size: 72px;
     font-weight: 500;
+    text-align: center;
 }
 
 p {
@@ -77,7 +78,7 @@ p {
 }
 
 .name>* {
-    margin: -2px 0;
+    margin: -7px 0;
     /* отрицательный margin для сближения */
 }
 
@@ -92,7 +93,7 @@ p {
     position: absolute;
     width: 120px;
     transition:
-        scale 1200ms var(--spring),
+        scale 1000ms var(--spring),
         opacity 300ms var(--spring);
 }
 

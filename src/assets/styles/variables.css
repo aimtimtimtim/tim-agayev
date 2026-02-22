@@ -17,7 +17,7 @@
   --foreground-secondary: #717171;
 
  --spring: cubic-bezier(0.34, 1.56, 0.64, 1);
-  --transition-spring: transform 600ms var(--spring);
+  --transition-spring: transform 800ms var(--spring);
 }
 
 /* Dark Theme */

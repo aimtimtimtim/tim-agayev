@@ -14,9 +14,10 @@ const langStore = useLanguageStore()
 const themeStore = useThemeStore()
 
 const i18n = useI18n({
-    logo: { ru: 'Тим Aгаев', en: 'Tim Agayev' },
+    logo: { ru: 'Тим', en: 'Tim' },
     contactMe: { ru: 'Написать мне', en: 'Contact me' },
     footerName: { ru: 'Тим Агаев', en: 'Tim Agayev' },
+    letsWtork: { ru: 'Давайте поработаем вместе', en: 'Let’s work together'}
 })
 
 const getResumeLink = () => {
@@ -28,7 +29,7 @@ const getResumeLink = () => {
     <footer class="footer">
         <!-- CTA -->
         <div class="footer__content">
-            <h3>Давайте поработаем вместе</h3>
+            <h3>{{i18n.letsWtork}}</h3>
             <div class="buttons">
                 <PrimaryBtn :text="i18n.contactMe" :href="linksStore.links.telegram" :icon="themeStore.isDark ? TGDarkIcon : TGLightIcon" :newTab="true">
                 </PrimaryBtn>
@@ -73,6 +74,7 @@ const getResumeLink = () => {
     h3 {
         font-size: 56px;
         font-weight: 400;
+        text-align: center;
     }
 }
 

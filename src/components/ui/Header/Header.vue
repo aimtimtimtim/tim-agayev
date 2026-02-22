@@ -8,12 +8,16 @@ import { useI18n } from '../../../composables/useI18n'
 import { useLinksStore } from '../../../stores/links'
 import { useLanguageStore } from '../../../stores/language'
 import ThemeToggle from '../../atoms/ThemeToggle.vue';
+import Burger from '@/components/atoms/Burger.vue';
+import MobileMenu from '../MobileMenu.vue';
 
 const linksStore = useLinksStore()
 const langStore = useLanguageStore()
 
+const isMenuOpen = ref(false)
+
 const i18n = useI18n({
-    logo: { ru: 'Тим Aгаев', en: 'Tim Agayev' },
+    logo: { ru: 'Тим', en: 'Tim' },
     resumeButton: { ru: 'Резюме', en: 'Resume' },
     сontactMe: { ru: 'Написать мне', en: 'Contact me' }
 })
@@ -76,11 +80,16 @@ const socialLinks = computed(() => [
                 <LangToggle />
             </div>
 
+            <div class="burger">
+                <Burger @toggle="isMenuOpen = !isMenuOpen" :isOpen="isMenuOpen" />
+            </div>
             <nav class="navigation">
                 <NavLink v-for="link in socialLinks" :key="link.id" :href="link.href" :text="link.text" />
             </nav>
         </div>
     </header>
+
+    <MobileMenu :isOpen="isMenuOpen" :links="socialLinks" @close="isMenuOpen = false" />
 </template>
 
 <style>
@@ -153,8 +162,23 @@ const socialLinks = computed(() => [
 
 .navigation {
     display: flex;
+    align-items: center;
     gap: 1rem;
     min-width: 200px;
+}
+
+/* Скрываем ссылки на мобильных */
+@media (max-width: 800px) {
+    .navigation {
+        display: none;
+    }
+}
+
+/* Скрываем ссылки на мобильных */
+@media (min-width: 800px) {
+    .burger {
+        display: none;
+    }
 }
 
 .navigation .nav-link {
