@@ -1,22 +1,36 @@
 <script setup lang="ts">
+import clickSound from '@/assets/sounds/click.mp3';
+
 interface Props {
   text?: string;
-  // Добавим проп для ссылки, как ты хотел ранее
   href?: string;
-  newTab?: boolean; // Новый проп для определения, открывать ли ссылку в новой вкладке
-  icon?: string; // Новый проп для иконки
-  iconPosition?: 'left' | 'right'; // Новый проп для позиции иконки
+  newTab?: boolean;
+  icon?: string;
+  iconPosition?: 'left' | 'right';
 }
 
 withDefaults(defineProps<Props>(), {
   text: "Primary Button",
-  newTab: false, // По умолчанию не открывать в новой вкладке
-  iconPosition: 'left', // По умолчанию иконка слева
+  newTab: false,
+  iconPosition: 'left',
 });
+
+const handleHover = () => {
+  const audio = new Audio(clickSound);
+  audio.volume = 0.1; // Уменьшаем громкость
+  audio.currentTime = 0;
+  audio.play().catch(err => console.error('Audio playback error:', err));
+};
 </script>
 
 <template>
-  <component :is="href ? 'a' : 'button'" :href="href" :target="newTab ? '_blank' : '_self'" class="primary-btn">
+  <component
+    :is="href ? 'a' : 'button'"
+    :href="href"
+    :target="newTab ? '_blank' : '_self'"
+    class="primary-btn"
+    @pointerenter="handleHover"
+  >
     <img v-if="icon && iconPosition === 'left'" :src="icon" :alt="text" class="btn-icon">
     {{ text }}
     <img v-if="icon && iconPosition === 'right'" :src="icon" :alt="text" class="btn-icon">
@@ -27,11 +41,9 @@ withDefaults(defineProps<Props>(), {
 .primary-btn {
   display: inline-flex;
   align-items: center;
-  gap: 0.3rem; /* Добавляем небольшой отступ между иконкой и текстом */
+  gap: 0.3rem;
   justify-content: center;
   text-decoration: none;
-  /* Для ссылок */
-
   background-color: var(--accent);
   color: var(--on-accent);
   border: none;
@@ -41,19 +53,9 @@ withDefaults(defineProps<Props>(), {
   font-size: 16px;
   font-weight: 400;
   cursor: pointer;
-  transition:
-    var(--transition-spring),
-    background-color 250ms ease;
+}
 
-  /* Обязательно добавляем & для вложенности в нативном CSS */
-  &:hover {
-    transform: scale(1.08);
-    background-color: var(--bg-primary-hover);
-  }
-
-  &:active {
-    transform: scale(0.98);
-    /* Дизайнерский штрих: легкое нажатие */
-  }
+.primary-btn:hover {
+  background-color: var(--bg-primary-hover);
 }
 </style>

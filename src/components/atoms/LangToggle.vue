@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue'
 import { useLanguageStore } from '../../stores/language'
+import clickSound from '@/assets/sounds/click.mp3'
 
 const langStore = useLanguageStore()
 const isAnimating = ref(false)
@@ -8,6 +9,11 @@ const isAnimating = ref(false)
 const sliderLeft = computed(() => (langStore.lang === 'ru' ? '2px' : 'calc(50% - 2px)'))
 
 const handleLangChange = (lang: string) => {
+    const audio = new Audio(clickSound)
+    audio.volume = 0.1 // Уменьшенная громкость
+    audio.currentTime = 0
+    audio.play().catch(err => console.error('Audio playback error:', err))
+
     isAnimating.value = true
     langStore.setLang(lang)
     setTimeout(() => {
@@ -39,6 +45,8 @@ const handleLangChange = (lang: string) => {
     display: flex;
     padding: 2px;
     box-sizing: border-box;
+    cursor: pointer;
+    /* Исправлено */
 }
 
 .lang-btn {
@@ -49,7 +57,7 @@ const handleLangChange = (lang: string) => {
     color: var(--text-secondary);
     font-size: 12px;
     cursor: pointer;
-    transition: color 0.3s ease;
+    /* Исправлено */
 }
 
 .lang-btn.active {
@@ -63,25 +71,6 @@ const handleLangChange = (lang: string) => {
     height: 28px;
     background: var(--bg-tertiary);
     border-radius: 999px;
-    transition: left 600ms var(--spring);
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-.slider.animating {
-    animation: sliderCompress 600ms var(--spring);
-}
-
-@keyframes sliderCompress {
-    0% {
-        width: calc(50%);
-    }
-    50% {
-        width: calc(50% - 12px);
-        /* сжимается в середине движения */
-    }
-    100% {
-        width: calc(50%);
-        /* восстанавливается */
-    }
 }
 </style>

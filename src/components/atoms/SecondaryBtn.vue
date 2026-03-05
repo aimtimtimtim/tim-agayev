@@ -1,19 +1,33 @@
 <script setup lang="ts">
+import clickSound from '@/assets/sounds/click.mp3';
+
 interface Props {
   text?: string;
-  // Добавим проп для ссылки, как ты хотел ранее
   href?: string;
-  newTab?: boolean; // Новый проп для определения, открывать ли ссылку в новой вкладке
+  newTab?: boolean;
 }
 
 withDefaults(defineProps<Props>(), {
   text: "Primary Button",
-  newTab: false, // По умолчанию не открывать в новой вкладке
+  newTab: false,
 });
+
+const handleHover = () => {
+  const audio = new Audio(clickSound);
+  audio.volume = 0.1; // Уменьшенная громкость
+  audio.currentTime = 0;
+  audio.play().catch(err => console.error('Audio playback error:', err));
+};
 </script>
 
 <template>
-  <component :is="href ? 'a' : 'button'" :href="href" :target="newTab ? '_blank' : '_self'" class="secondary-btn">
+  <component
+    :is="href ? 'a' : 'button'"
+    :href="href"
+    :target="newTab ? '_blank' : '_self'"
+    class="secondary-btn"
+    @pointerenter="handleHover"
+  >
     {{ text }}
   </component>
 </template>
@@ -24,8 +38,6 @@ withDefaults(defineProps<Props>(), {
   align-items: center;
   justify-content: center;
   text-decoration: none;
-  /* Для ссылок */
-
   background-color: var(--bg-secondary);
   color: var(--text-primary);
   border: none;
@@ -35,19 +47,9 @@ withDefaults(defineProps<Props>(), {
   font-size: 16px;
   font-weight: 400;
   cursor: pointer;
-  transition:
-    var(--transition-spring),
-    background-color 250ms ease;
+}
 
-  /* Обязательно добавляем & для вложенности в нативном CSS */
-  &:hover {
-    transform: scale(1.08);
-    background-color: var(--bg-secondary-hover);
-  }
-
-  &:active {
-    transform: scale(0.98);
-    /* Дизайнерский штрих: легкое нажатие */
-  }
+.secondary-btn:hover {
+  background-color: var(--bg-secondary-hover);
 }
 </style>

@@ -1,4 +1,6 @@
 <script setup lang="ts">
+
+
 interface Props {
   href: string;
   text: string;
@@ -6,13 +8,19 @@ interface Props {
 }
 
 withDefaults(defineProps<Props>(), {
-  isExternal: true
+  isExternal: true,
 });
+
+
 </script>
 
 <template>
-  <a :href="href" class="nav-link" :target="isExternal ? '_blank' : '_self'"
-    :rel="isExternal ? 'noopener noreferrer' : undefined">
+  <a
+    :href="href"
+    class="nav-link"
+    :target="isExternal ? '_blank' : '_self'"
+    :rel="isExternal ? 'noopener noreferrer' : undefined"
+  >
     {{ text }}
   </a>
 </template>
@@ -24,17 +32,7 @@ withDefaults(defineProps<Props>(), {
   font-size: 14px;
   font-family: var(--font-main);
   font-weight: 400;
-  transition: var(--transition-spring);
   cursor: pointer;
   white-space: nowrap;
-}
-
-.nav-link:hover {
-  color: var(--text-primary);
-  transform: scale(1.08);
-}
-
-.nav-link:active {
-  transform: scale(0.98);
 }
 </style>

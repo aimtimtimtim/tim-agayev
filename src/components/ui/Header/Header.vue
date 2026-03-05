@@ -3,11 +3,11 @@ import { ref, onMounted, onUnmounted, computed } from 'vue'
 import LangToggle from '../../atoms/LangToggle.vue';
 import NavLink from '../../atoms/NavLink.vue';
 import PrimaryBtn from '../../atoms/PrimaryBtn.vue';
+import clickSound from '@/assets/sounds/click.mp3';
 
 import { useI18n } from '../../../composables/useI18n'
 import { useLinksStore } from '../../../stores/links'
 import { useLanguageStore } from '../../../stores/language'
-import ThemeToggle from '../../atoms/ThemeToggle.vue';
 import Burger from '@/components/atoms/Burger.vue';
 import MobileMenu from '../MobileMenu.vue';
 
@@ -57,6 +57,13 @@ const getResumeLink = () => {
     return langStore.lang === 'ru' ? linksStore.links.ruResume : linksStore.links.enResume
 }
 
+const handleHover = () => {
+  const audio = new Audio(clickSound);
+  audio.volume = 0.1;
+  audio.currentTime = 0;
+  audio.play().catch(err => console.error('Audio playback error:', err));
+};
+
 const socialLinks = computed(() => [
     { id: 1, text: 'CV', href: getResumeLink() },
     { id: 1, text: 'Telegram', href: linksStore.links.telegram },
@@ -76,7 +83,7 @@ const socialLinks = computed(() => [
             </button>
 
             <div class="actions">
-                <ThemeToggle></ThemeToggle>
+                <!-- <ThemeToggle></ThemeToggle> -->
                 <LangToggle />
             </div>
 
@@ -84,7 +91,13 @@ const socialLinks = computed(() => [
                 <Burger @toggle="isMenuOpen = !isMenuOpen" :isOpen="isMenuOpen" />
             </div>
             <nav class="navigation">
-                <NavLink v-for="link in socialLinks" :key="link.id" :href="link.href" :text="link.text" />
+                <NavLink
+                  v-for="link in socialLinks"
+                  :key="link.id"
+                  :href="link.href"
+                  :text="link.text"
+                  @pointerenter="handleHover"
+                />
             </nav>
         </div>
     </header>
@@ -179,10 +192,6 @@ const socialLinks = computed(() => [
     .burger {
         display: none;
     }
-}
-
-.navigation .nav-link {
-    transition: var(--transition-spring), opacity 600ms var(--spring);
 }
 
 .navigation:hover .nav-link {
