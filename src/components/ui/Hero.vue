@@ -33,13 +33,14 @@ const getResumeLink = () => {
                 <img src="/pic2.png" alt="Tim Agayev">
             </div>
             <div class="name">
-                <h1>{{ i18n.hello }}</h1>
+                <h1 >{{ i18n.hello }}</h1>
                 <h1>{{ i18n.jobTitle }}</h1>
             </div>
             <p>{{ i18n.description }}</p>
         </div>
         <div class="buttons">
-            <PrimaryBtn :text="i18n.сontactMe" :href="linksStore.links.telegram" :icon="themeStore.isDark ? TGDarkIcon : TGLightIcon" :newTab="true"></PrimaryBtn>
+            <PrimaryBtn :text="i18n.сontactMe" :href="linksStore.links.telegram"
+                :icon="themeStore.isDark ? TGDarkIcon : TGLightIcon" :newTab="true"></PrimaryBtn>
             <SecondaryBtn text="CV" :href="getResumeLink()" :newTab="true"></SecondaryBtn>
         </div>
     </div>
@@ -50,6 +51,10 @@ h1 {
     font-size: 72px;
     font-weight: 500;
     text-align: center;
+
+    font-family: "Noto Serif Display", serif;
+    font-weight: 400;
+    font-style: italic;
 }
 
 p {
